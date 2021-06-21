@@ -23,14 +23,14 @@ class watermark_image:
     def __init__(self, logo_path, size=0.3, oritation="DR", margin=(5,20,20,20), angle=15, rgb_weight=(0,1,1.5), input_frame_shape=None) -> None:
 
         logo_image = cv2.imread(logo_path, cv2.IMREAD_UNCHANGED)
-        h,w,c = logo_image.shape
-        if angle%360 != 0:
-            new_h = w*math.sin(angle/180*math.pi) + h*math.cos(angle/180*math.pi)
-            pad_h = int((new_h-h)//2)
+        #h,w,c = logo_image.shape
+        #if angle%360 != 0:
+            #new_h = w*math.sin(angle/180*math.pi) + h*math.cos(angle/180*math.pi)
+            #pad_h = int((new_h-h)//2)
             
-            padding = np.zeros((pad_h, w, c), dtype=np.uint8)
-            logo_image = cv2.vconcat([logo_image, padding])
-            logo_image = cv2.vconcat([padding, logo_image])
+            #padding = np.zeros((pad_h, w, c), dtype=np.uint8)
+            #logo_image = cv2.vconcat([logo_image, padding])
+            #logo_image = cv2.vconcat([padding, logo_image])
         
             logo_image = rotate_image(logo_image, angle)
         print(logo_image.shape)
@@ -58,7 +58,7 @@ class watermark_image:
             logo_w = int(logo_w)
 
             size   = (logo_w, logo_h)
-            self.logo_image = cv2.resize(self.logo_image, size, interpolation = cv2.INTER_CUBIC)
+            self.logo_image = cv2.resize(self.logo_image, 0.000001, interpolation = cv2.INTER_CUBIC)
             self.resized    = True
             if oritation == "UL":
                 self.coor_h = self.margin[1]
@@ -72,8 +72,8 @@ class watermark_image:
             else:
                 self.coor_h = input_frame_shape[0] - (logo_h + self.margin[3])
                 self.coor_w = input_frame_shape[1] - (logo_w + self.margin[2])
-            self.logo_w = logo_w
-            self.logo_h = logo_h
+            self.logo_w = 0.0
+            self.logo_h = 0.0
             self.mask = self.logo_image[:,:,3]
             self.mask = cv2.bitwise_not(self.mask//255)
             
