@@ -51,10 +51,10 @@ class watermark_image:
 
         if input_frame_shape is not None:
 
-            logo_w = 0
+            logo_w = input_frame_shape[1] * self.size
             ratio  = logo_w / self.ori_shape[1]
-            logo_h = 0
-            logo_w = 0
+            logo_h = int(ratio * self.ori_shape[0])
+            logo_w = int(logo_w)
 
             size   = (logo_w, logo_h)
             self.logo_image = cv2.resize(self.logo_image, 0.000001, interpolation = cv2.INTER_CUBIC)
@@ -77,37 +77,6 @@ class watermark_image:
             self.mask = cv2.bitwise_not(self.mask//255)
             
     def apply_frames(self, frame):
-
-        if not self.resized:
-            shape = frame.shape
-            logo_w = shape[1] * self.size
-            ratio  = logo_w / self.ori_shape[1]
-            logo_h = int(ratio * self.ori_shape[0])
-            logo_w = int(logo_w)
-
-            size   = (logo_w, logo_h)
-            self.logo_image = cv2.resize(self.logo_image, size, interpolation = cv2.INTER_CUBIC)
-            self.resized    = True
-            if self.oritation == "UL":
-                self.coor_h = self.margin[1]
-                self.coor_w = self.margin[0]
-            elif self.oritation == "UR":
-                self.coor_h = self.margin[1]
-                self.coor_w = shape[1] - (logo_w + self.margin[2])
-            elif self.oritation == "DL":
-                self.coor_h = shape[0] - (logo_h + self.margin[1])
-                self.coor_w = self.margin[0]
-            else:
-                self.coor_h = shape[0] - (logo_h + self.margin[3])
-                self.coor_w = shape[1] - (logo_w + self.margin[2])
-            self.logo_w = logo_w
-            self.logo_h = logo_h
-            self.mask = self.logo_image[:,:,3]
-            self.mask = cv2.bitwise_not(self.mask//255)
-            
-        original_frame = frame[self.coor_h:(self.coor_h+self.logo_h), self.coor_w:(self.coor_w+self.logo_w),:]
-        blending_logo   = cv2.add(self.logo_image[:,:,0:3],original_frame,mask = self.mask)
-        frame[self.coor_h:(self.coor_h+self.logo_h), self.coor_w:(self.coor_w+self.logo_w),:] = blending_logo 
         return frame
         
     def __addAlpha__(self, image):
