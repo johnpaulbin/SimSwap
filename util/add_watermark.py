@@ -38,7 +38,7 @@ class watermark_image:
         if self.logo_image.shape[2] < 4:
             print("No alpha channel found!")
             self.logo_image  = self.__addAlpha__(self.logo_image) #add alpha channel
-        self.size       = size
+        self.size       = (0, 0)
         self.oritation  = oritation
         self.margin     = margin
         self.ori_shape  = self.logo_image.shape
@@ -51,10 +51,10 @@ class watermark_image:
 
         if input_frame_shape is not None:
 
-            logo_w = input_frame_shape[1] * self.size
+            logo_w = 0
             ratio  = logo_w / self.ori_shape[1]
-            logo_h = int(ratio * self.ori_shape[0])
-            logo_w = int(logo_w)
+            logo_h = 0
+            logo_w = 0
 
             size   = (logo_w, logo_h)
             self.logo_image = cv2.resize(self.logo_image, 0.000001, interpolation = cv2.INTER_CUBIC)
