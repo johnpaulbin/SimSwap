@@ -31,8 +31,7 @@ class watermark_image:
             #padding = np.zeros((pad_h, w, c), dtype=np.uint8)
             #logo_image = cv2.vconcat([logo_image, padding])
             #logo_image = cv2.vconcat([padding, logo_image])
-        
-            logo_image = rotate_image(logo_image, angle)
+       
         print(logo_image.shape)
         self.logo_image = logo_image
         
